@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+    <title>ToxinBE - Nguyễn Hoàng Tiến</title>
+    <link rel="shortcut icon" href="../images/avatar.jpg">
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="../assets/css/main.css" />
+</head>
+
+<body>
+    <!-- Wrapper -->
+    <div id="wrapper">
+        <!-- Header -->
+        <header id="header">
+            <a href="../wanted/" class="avatar"><img src="../images/avatar.jpg" /></a>
+            <h1>Đây là website của ToxinBE
+                <p><br><b>Nguyễn Hoàng Tiến</b></p>
+            </h1>
+            <ul class="icons">
+                <li><a target="_blank" href="https://www.instagram.com/toxinbe61/" class="icon style2 fa-instagram"><span class="label">Instagram</span></a></li>
+                <li><a target="_blank" href="https://www.facebook.com/ToxinBE/" class="icon style2 fa-facebook"><span class="label">Facebook</span></a></li>
+                <li><a target="_blank" href="https://www.youtube.com/@toxinbe61/" class="icon style2 fa-youtube"><span class="label">Youtube</span></a></li>
+            </ul>
+        </header>
+        <!-- Main -->
+        <div id="main">
+            <h1 style="text-align: center;">LINK</h1>
+            <!-- Thumbnails -->
+            <div class="thumbnails">
+                <div>
+                </div>
+                <div>
+                    <a href="https://toxinbe.x10.bz">
+                        <!-- <img src="../images/thumbs/lab1.png" /> -->
+                        <h3>401 Unauthorized - Error</h3>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- Footer -->
+        <footer id="footer">
+            <p>Copyright© 2024 ToxinBE<br><b>Nguyễn Hoàng Tiến</b></p>
+        </footer>
+    </div>
+
+</body>
+
+</html>

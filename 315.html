@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="icon"
+        href="https://w.ladicdn.com/s450x400/5aa6273ea81f66ca2eacc40b/logo-315-moi-real-20230620042234-qcome.png"
+        type="image/x-icon">
+    <title>Clinic Map 315</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+    <style>
+        /* 
+ * Always set the map height explicitly to define the size of the div element
+ * that contains the map. 
+ */
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* 
+   * Optional: Makes the sample page fill the window. 
+   */
+        :root {
+            --color-title: #919396;
+            --color-second-title: rgb(0, 175, 239);
+        }
+
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        [class$=api-load-alpha-banner] {
+            display: none;
+        }
+
+        .property {
+            align-items: center;
+            background-color: #FFFFFF;
+            border-radius: 50%;
+            color: #263238;
+            display: flex;
+            font-size: 14px;
+            gap: 15px;
+            height: 30px;
+            justify-content: center;
+            padding: 4px;
+            position: relative;
+            position: relative;
+            transition: all 0.3s ease-out;
+            width: 30px;
+            flex-direction: column;
+        }
+
+        .property::after {
+            border-left: 9px solid transparent;
+            border-right: 9px solid transparent;
+            border-top: 9px solid var(--color-second-title);
+            content: "";
+            height: 0;
+            left: 50%;
+            position: absolute;
+            top: 85%;
+            transform: translate(-50%, 0);
+            transition: all 0.3s ease-out;
+            width: 0;
+            z-index: 1;
+        }
+
+        .property .icon img {
+            height: auto;
+            width: 50px;
+            margin-bottom: 20px;
+        }
+
+        .property .icon {
+            align-items: center;
+            display: flex;
+            justify-content: center;
+            color: #FFFFFF;
+            position: relative;
+        }
+
+
+
+        /*
+ * Property styles in highlighted state.
+ */
+
+
+        .property.highlight::after {
+            border-top: 9px solid var(--color-second-title);
+        }
+
+
+
+        .property.highlight .icon svg {
+            width: 50px;
+            height: 50px;
+        }
+
+        .property .addressTitle p {
+            padding: 0 5px;
+            text-transform: capitalize;
+            margin: 0;
+            width: max-content;
+        }
+
+        /* hover */
+        .yNHHyP-marker-view:hover {
+            z-index: 2;
+        }
+
+
+
+        .property:hover {
+            transform: scale(1.05, 1.05);
+        }
+
+        .property .addressTitle {
+            text-align: center;
+            background-color: white;
+            padding: 5px;
+            border-radius: 12px;
+            box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 16px;
+            border: solid 1px var(--color-second-title);
+            transform: translateY(-10px);
+            display: none;
+        }
+
+        .yNHHyP-marker-view:hover .property .addressTitle {
+            display: block;
+        }
+
+        .yNHHyP-marker-view:hover .property .icon {
+            transform: translateY(-22px)
+        }
+
+        .property .detail {
+            display: none;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .property.highlight {
+            flex-direction: row;
+            background-color: #FFFFFF;
+            border-radius: 12px;
+            box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 16px;
+            height: fit-content;
+            padding: 8px 15px;
+            width: max-content;
+            overflow: hidden;
+        }
+
+        .property.highlight {
+            padding: 10px;
+            background-color: white;
+            color: var(--color-title);
+            border: 1px solid var(--color-second-title);
+        }
+
+        .property.highlight .detail {
+            display: flex;
+            line-height: 25px;
+
+        }
+
+        .property.highlight::after {
+            border-top: 9px solid transparent;
+        }
+
+        .yNHHyP-marker-view:hover .property.highlight .addressTitle {
+            display: none;
+        }
+
+        .yNHHyP-marker-view:hover .property.highlight .icon {
+            transform: unset
+        }
+
+        .property.highlight .icon img {
+            width: 65px;
+        }
+
+        .property.highlight .detail .clockWork {
+            display: flex;
+            align-items: center;
+            justify-content: start;
+            gap: 5px;
+            border-top: 1px solid #d3d7db;
+        }
+
+        /*
+* Property styles in highlighted state.
+*/
+
+        .property_vp.highlight .icon svg {
+            width: 50px;
+            height: 50px;
+        }
+
+        .property_vp .addressTitle p {
+            margin: 0;
+            width: 180px;
+        }
+
+        /* hover */
+        .property_vp .addressTitle {
+            text-align: center;
+            background-color: white;
+            padding: 5px;
+            border-radius: 12px;
+            box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 16px;
+            border: solid 1px #1576bd;
+            transform: translateY(-10px);
+            display: none;
+        }
+
+        .yNHHyP-marker-view:hover .property_vp .addressTitle {
+            display: block;
+        }
+
+        .yNHHyP-marker-view:hover .property_vp .icon {
+            transform: translateY(-22px)
+        }
+
+        .property_vp .detail {
+            display: none;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .property_vp.highlight {
+            flex-direction: row;
+            background-color: #FFFFFF;
+            border-radius: 12px;
+            box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 16px;
+            height: 100px;
+            padding: 8px 15px;
+            width: 350px;
+            overflow: hidden;
+        }
+
+        .property_vp.highlight {
+            padding: 10px;
+            background-color: white;
+            color: var(--color-title);
+            border: 1px solid #1576bd;
+        }
+
+        .property_vp.highlight .detail {
+            display: flex;
+            line-height: 25px;
+
+        }
+
+        .property_vp.highlight::after {
+            border-top: 9px solid white;
+            display: none;
+        }
+
+        .yNHHyP-marker-view:hover .property_vp.highlight .addressTitle {
+            display: none;
+        }
+
+        .yNHHyP-marker-view:hover .property_vp.highlight .icon {
+            transform: unset
+        }
+
+        .property_vp.highlight .icon img {
+            width: 78px;
+            border: none;
+            border-radius: unset;
+        }
+
+        .property_vp.highlight .detail .clockWork {
+            display: flex;
+            align-items: center;
+            justify-content: start;
+            gap: 5px;
+            border-top: 1px solid #d3d7db;
+        }
+
+        .property .addressTitle,
+        .property .icon,
+        .property .detail {
+            color: #666;
+            /* font-weight: bold; */
+        }
+
+        .property .addressTitle,
+        .property .detail span {
+            font-weight: bold;
+        }
+
+        .property .detail .clockWork span {
+            font-style: italic;
+            font-weight: 400;
+        }
+
+        .property .detail .clockWork svg path {
+            filter: invert(16%) sepia(3%) saturate(16%) hue-rotate(11deg) brightness(98%) contrast(87%);
+            border: #666;
+        }
+
+        .property .detail {
+            line-height: 22px !important;
+        }
+
+        .property .detail .address {
+            padding-bottom: 3px;
+        }
+
+        .property .detail a {
+            color: #666;
+            text-decoration: none;
+        }
+
+        .property .detail a:hover,
+        .property .detail a:active {
+            color: #222;
+        }
+
+        .property .detail {
+            display: none;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .property .detail .svg_icon {
+            margin: -3px 0;
+            height: 17px;
+            width: 17px;
+        }
+
+        .property .detail .name {
+            text-transform: uppercase;
+        }
+
+        .property .detail .address {
+            text-transform: capitalize;
+        }
+
+        .logo_pk {
+            margin-bottom: 10px !important;
+            width: 75px !important;
+        }
+
+        .coming_soon {
+            color: red;
+            font-weight: bold !important;
+            text-transform: capitalize;
+        }
+
+        .color_nhi {
+            color: #00ADEF;
+            fill: #00ADEF;
+        }
+
+        .color_san {
+            color: #DF5EA2;
+            fill: #DF5EA2;
+        }
+
+        .color_lao {
+            color: #F58220;
+            fill: #F58220;
+        }
+
+        .color_mat {
+            color: #1DBFD7;
+            fill: #1DBFD7;
+        }
+
+        .property_nhi::after {
+            border-top: 9px solid #00ADEF;
+        }
+
+
+        .property_san::after {
+            border-top: 9px solid #DF5EA2;
+        }
+
+        .property_lao::after {
+            border-top: 9px solid #F58220;
+        }
+
+        .property_mat::after {
+            border-top: 9px solid #1DBFD7;
+        }
+
+        .property_nhi.highlight,
+        .property_nhi .addressTitle {
+            border: 1px solid #00ADEF;
+        }
+
+        .property_san.highlight,
+        .property_san .addressTitle {
+            border: 1px solid #DF5EA2;
+        }
+
+        .property_lao.highlight,
+        .property_lao .addressTitle {
+            border: 1px solid #F58220;
+        }
+
+        .property_mat.highlight,
+        .property_mat .addressTitle {
+            border: 1px solid #1DBFD7;
+        }
+
+        .exit {
+            width: 15px;
+            height: 15px;
+            float: right;
+            position: sticky;
+            fill: #666;
+            margin-top: -2px;
+        }
+
+        .exit:hover {
+            transform: scale(1.15, 1.15);
+            fill: #222;
+        }
+
+        @media only screen and (min-width: 300px) {
+            html {
+                zoom: 3.5;
+            }
+
+            .address {
+                width: 300px;
+            }
+        }
+
+        @media only screen and (min-width: 900px) {
+            html {
+                zoom: 2.5;
+            }
+        }
+
+        @media only screen and (min-width: 1280px) {
+            html {
+                zoom: 1;
+            }
+        }
+    </style>
+
+    <script>
+    async function initMap() {
+    // Request needed libraries.
+    const { Map } = await google.maps.importLibrary("maps");
+    const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
+    const map = new Map(document.getElementById("map"), {
+    center: { lat: 10.7996365, lng: 106.6717373 },
+    zoom: 12,
+    mapId: "4504f8b37365c3d0",
+    });
+    // Each PinElement is paired with a MarkerView to demonstrate setting each parameter.
+    // Default marker with title text (no PinElement).
+    const buildContent = (property) => {
+    const content = document.createElement("div");
+    console.log(content)
+    content.classList.add("property");
+    switch (property.type) {
+    case "nhi":
+    content.classList.add("property_nhi");
+    break;
+    case "san":
+    content.classList.add("property_san");
+    break;
+    case "lao":
+    content.classList.add("property_lao");
+    break;
+    case "mat":
+    content.classList.add("property_mat");
+    break;
+    case "bv":
+    content.classList.add("property_san");
+    break;
+    default:
+    }
+    
+    content.innerHTML = `
+    <div class="addressTitle">
+        <p class="
+          ${property.type == " san" || property.type=="bv" ? "color_san" : property.type=="lao" ? "color_lao" :
+            property.type=="mat" ? "color_mat" : "color_nhi" } ">${property.title}</p>
+        </div>
+    
+        <div class=" icon">
+            <img class="
+          ${property.type == "bv" || property.type == "vp"
+            ? ""
+            : "logo_pk"
+          }" src="${property.img}"></img>
+    </div>
+    
+    <div class="detail">
+        <div class="name">
+            <svg class="svg_icon 
+            ${property.type == " san" || property.type=="bv" ? "color_san" : property.type=="lao" ? "color_lao" :
+                property.type=="mat" ? "color_mat" : "color_nhi" } " xmlns=" http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" fill="rgba(0, 175, 239, 1)">
+                <path d="M10,20V14H14V20H19V12H22L12,3L2,12H5V20H10Z"></path>
+            </svg>
+            <span class="
+            ${property.type == "san" || property.type == "bv"
+            ? "color_san"
+            : property.type == "lao"
+              ? "color_lao"
+              : property.type == "mat"
+                ? "color_mat"
+                : "color_nhi"
+          }
+          ">${property.name}</span>
+          <svg class="exit" viewBox="0 0 1920 1920" xmlns="http://www.w3.org/2000/svg">
+        <path d="M797.32 985.882 344.772 1438.43l188.561 188.562 452.549-452.549 452.548 452.549 188.562-188.562-452.549-452.548 452.549-452.549-188.562-188.561L985.882 797.32 533.333 344.772 344.772 533.333z"/>
+    </svg>
+          </div>
+          <div class="hotline">
+            <svg class="svg_icon 
+            ${property.type == "san" || property.type == "bv"
+            ? "color_san"
+            : property.type == "lao"
+              ? "color_lao"
+              : property.type == "mat"
+                ? "color_mat"
+                : "color_nhi"
+          }
+          " xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" fill="rgba(0, 175, 239, 1)"> <path d="M6.62,10.79C8.06,13.62 10.38,15.94 13.21,17.38L15.41,15.18C15.69,14.9 16.08,14.82 16.43,14.93C17.55,15.3 18.75,15.5 20,15.5A1,1 0 0,1 21,16.5V20A1,1 0 0,1 20,21A17,17 0 0,1 3,4A1,1 0 0,1 4,3H7.5A1,1 0 0,1 8.5,4C8.5,5.25 8.7,6.45 9.07,7.57C9.18,7.92 9.1,8.31 8.82,8.59L6.62,10.79Z"></path> </svg>
+            <span><a href="tel: ${property.hotline}">${property.hotline}</a></span>
+        </div>
+        <div class="address">
+            <svg class="svg_icon 
+            ${property.type == " san" || property.type=="bv" ? "color_san" : property.type=="lao" ? "color_lao" :
+                property.type=="mat" ? "color_mat" : "color_nhi" } " viewBox=" 0 0 24 24" id="magicoon-Filled"
+                xmlns="http://www.w3.org/2000/svg">
+                <path id="map-marker-Filled-2" data-name="map-marker-Filled" class="cls-1"
+                    d="M14,10a2,2,0,1,1-2-2A2.006,2.006,0,0,1,14,10Zm5.5,0c0,6.08-4.67,9.89-6.67,11.24a1.407,1.407,0,0,1-.83.26,1.459,1.459,0,0,1-.84-.26C9.16,19.89,4.5,16.09,4.5,10A7.33,7.33,0,0,1,12,2.5,7.336,7.336,0,0,1,19.5,10ZM16,10a4,4,0,1,0-4,4A4,4,0,0,0,16,10Z" />
+                </g>
+            </svg>
+            <span><a target="_blank" href="${property.linkAddress}">${property.address}</a></span>
+        </div>
+        <div class="clockWork">
+            <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                width="14" height="14" viewBox="0 0 20 20" enable-background="new 0 0 20 20" xml:space="preserve">
+                <path
+                    d="M10,20C4.5,20,0,15.5,0,10S4.5,0,10,0s10,4.5,10,10S15.5,20,10,20z M10,2c-4.4,0-8,3.6-8,8s3.6,8,8,8s8-3.6,8-8S14.4,2,10,2 z" />
+                <path
+                    d="M13.8,12l-4-1C9.3,10.9,9,10.5,9,10V5c0-0.6,0.4-1,1-1s1,0.4,1,1v4.2l3.2,0.8c0.5,0.1,0.9,0.7,0.7,1.2 C14.8,11.8,14.3,12.1,13.8,12z" />
+            </svg>
+            <span class="
+            ${property.workingTime == "Coming soon"
+            ? "coming_soon"
+            : ""
+          }
+          " style="margin-top:2px">&nbsp${property.workingTime}</span>
+        </div>
+    </div>
+    `;
+    
+    
+    return content;
+    };
+    for (const property of dataNhiDong315) {
+    const glyphSvgMarkerView = new AdvancedMarkerElement({
+    map,
+    position: property.position,
+    content: buildContent(property),
+    });
+    glyphSvgMarkerView.addListener("click", () => {
+    toggleHighlight(glyphSvgMarkerView, property);
+    });
+    }
+    function toggleHighlight(markerView, property) {
+    if (markerView.content.classList.contains("highlight")) {
+    markerView.content.classList.remove("highlight");
+    markerView.zIndex = null;
+    } else {
+    markerView.content.classList.add("highlight");
+    markerView.zIndex = 1;
+    }
+    }
+    }
+    
+    const srcLogo = {
+    nhi: "https://w.ladicdn.com/s450x400/5aa6273ea81f66ca2eacc40b/logo-315-moi-real-20230620043518-tn2we.png",
+    san: "https://w.ladicdn.com/s450x400/5aa6273ea81f66ca2eacc40b/phu-san-315-20220326030218.png",
+    lao: "https://w.ladicdn.com/s450x400/5aa6273ea81f66ca2eacc40b/1t-20230612033443-n9-wa.png",
+    mat: "https://w.ladicdn.com/s450x400/5aa6273ea81f66ca2eacc40b/mat-nenxanh-20230620043518-qi02r.png",
+    bv: "https://w.ladicdn.com/5aa6273ea81f66ca2eacc40b/map-icon-bv-20240327164436-qwmck.png",
+    vp: "https://w.ladicdn.com/5aa6273ea81f66ca2eacc40b/map-icon-vp-20240327164436-ojkt8.png",
+    };
+    const time = {
+    full: "T2-CN: 8:00 - 11:30 và 13:30 - 20:30",
+    part: "T2-T6: 17:00 - 20:30</br>T7-CN: 8:00 - 11:30 và 13:30 - 20:30",
+    comingsoon: "Coming soon"
+    };
+    const hotline315 = "0901.315.315"
+    const dataNhiDong315 = [
+    {
+    title: "Số 8A-8B Lê Trọng Tấn",
+    type: "mat",
+    img: srcLogo.mat,
+    name: "Mắt 315",
+    hotline: hotline315,
+    address: "8A-8B Lê Trọng Tấn, P. Tây Thạnh, Q. Tân Phú, TP. HCM",
+    workingTime: time.comingsoon,
+    linkAddress: "https://goo.gl/maps/64UoCWFojh3pws8N8",
+    position: {
+    lat: 10.759758,
+    lng: 106.698932,
+    },
+    },
+    {
+    title: "Số 234 Đinh Tiên Hoàng",
+    type: "nhi",
+    img: srcLogo.nhi,
+    name: "Nhi Đồng 315 & Tiêm Chủng Nhi",
+    hotline: hotline315,
+    address: "234 Đinh Tiên Hoàng, P. Đa Kao, Q. 1, TP. HCM",
+    workingTime: time.full,
+    linkAddress: "https://goo.gl/maps/gBPJ568fCmpcgiQx8",
+    position: {
+    lat: 10.7925958,
+    lng: 106.6960584,
+    },
+    },
+    {
+    title: "số 897-897a nguyễn ảnh thủ",
+    type: "san",
+    img: srcLogo.san,
+    name: "Phụ Sản 315",
+    hotline: hotline315,
+    address: "897-897A Nguyễn Ảnh Thủ, P. Tân Chánh Hiệp, Q. 12, TP. HCM",
+    workingTime: time.part,
+    linkAddress: "https://maps.app.goo.gl/HhjzkestY7VGiRBF7",
+    position: {
+    lat: 10.785292,
+    lng: 106.6594886,
+    },
+    },
+    {
+    title: "Số 187 Nguyễn Sơn",
+    type: "lao",
+    img: srcLogo.lao,
+    name: "Tim Mạch - Tiểu Đường 315",
+    hotline: hotline315,
+    address: "187 Nguyễn Sơn, p. Phú Thạnh, Q. Tân Phú, TP.HCM",
+    workingTime: time.comingsoon,
+    linkAddress: "https://goo.gl/maps/gBPJ568fCmpcgiQx8",
+    position: {
+    lat: 10.785292,
+    lng: 106.682797,
+    },
+    },
+    {
+    title: "Số 622-624 CMT8",
+    type: "bv",
+    img: srcLogo.bv,
+    name: "Bệnh viện Phụ Sản Quốc Tế 315",
+    hotline: hotline315,
+    address: "622-624 CMT8, P. Phước Nguyễn,TP. Bà Rịa, Tỉnh Bà Rịa - Vũng Tàu",
+    workingTime: time.full,
+    linkAddress: "https://maps.app.goo.gl/3KgyrxDNJ3gbGNU37",
+    position: {
+    lat: 10.7505335,
+    lng: 106.6594886,
+    },
+    },
+    {
+    title: "Số 207B Hoàng Văn Thụ",
+    type: "vp",
+    img: srcLogo.vp,
+    name: "Văn phòng 315 MEDICAL",
+    hotline: hotline315,
+    address: "207B Hoàng Văn Thụ, P. 8, Q. Phú Nhuận, TP. HCM",
+    workingTime: time.full,
+    linkAddress: "https://maps.app.goo.gl/3KgyrxDNJ3gbGNU37",
+    position: {
+    lat: 10.7437657,
+    lng: 106.682797,
+    },
+    },
+    ];
+    initMap();
+    </script>
+
+</head>
+
+<body>
+    <div id="map"></div>
+    <!-- prettier-ignore -->
+    <script>
+        (g => { var h, a, k, p = "The Google Maps JavaScript API", c = "google", l = "importLibrary", q = "__ib__", m = document, b = window; b = b[c] || (b[c] = {}); var d = b.maps || (b.maps = {}), r = new Set, e = new URLSearchParams, u = () => h || (h = new Promise(async (f, n) => { await (a = m.createElement("script")); e.set("libraries", [...r] + ""); for (k in g) e.set(k.replace(/[A-Z]/g, t => "_" + t[0].toLowerCase()), g[k]); e.set("callback", c + ".maps." + q); a.src = `https://maps.${c}apis.com/maps/api/js?` + e; d[q] = f; a.onerror = () => h = n(Error(p + " could not load.")); a.nonce = m.querySelector("script[nonce]")?.nonce || ""; m.head.append(a) })); d[l] ? console.warn(p + " only loads once. Ignoring:", g) : d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n)) })
+      ({ key: "AIzaSyD3GG7Qq1XgRMAcjPejT9spgnR4RZ9xzbU", v: "weekly" });
+    </script>
+</body>
+
+</html>
